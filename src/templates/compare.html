@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Compare: {{ compare.date_1 }}, {{ compare.date_2 }} </h3>
+<br/>
+<table>
+    <thead>
+    <tr>
+        <th>Sections</th>
+        <th><a href="/date/{{ compare.date_1 }}?route={{ route_name }}">{{ compare.date_1 }}</a></th>
+        <th><a href="/date/{{ compare.date_2 }}?route={{ route_name }}">{{ compare.date_2 }}</a></th>
+        <th>Difference</th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for section in compare.sections %}
+      <tr>
+          <td><a href="/section/{{ section }}?route={{ route_name }}">{{ section }}</a></td>
+          {% set training_1 = compare.training_1.get(section) %}
+          {% if training_1 is not none %}
+          <td class="{{ training_1.get_grade_class  }}">{{ training_1.time_converted }} ( {{ training_1.str_order }} )  {{ training_1.str_lost }}</td>
+          {% else %}
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          {% endif %}
+          {% set training_2 = compare.training_2.get(section) %}
+          {% if training_2 is not none %}
+          <td class="{{ training_2.get_grade_class  }}">{{ training_2.time_converted }} ( {{ training_2.str_order }} )  {{ training_2.str_lost }}</td>
+          {% else %}
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          {% endif %}
+          {% set diff = compare.differences.get(section) %}
+          {% if diff is not none %}
+          <td class="{{ diff.color_class }}">{{ diff.text_value }}</td>
+          {% else %}
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          {% endif %}
+      </tr>
+      {% endfor %}
+      <tr>
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
+      </tr>
+      {% for aggregation in compare.aggregations %}
+      <tr>
+          <td><a href="/aggregation/{{ aggregation }}?route={{ route_name }}">{{ aggregation }}</a></td>
+          {% set training_1 = compare.training_1.get(aggregation) %}
+          {% if training_1 is not none %}
+          <td class="{{ training_1.get_grade_class  }}">{{ training_1.time_converted }} ( {{ training_1.str_order }} )  {{ training_1.str_lost }}</td>
+          {% else %}
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          {% endif %}
+          {% set training_2 = compare.training_2.get(aggregation) %}
+          {% if training_2 is not none %}
+          <td class="{{ training_2.get_grade_class  }}">{{ training_2.time_converted }} ( {{ training_2.str_order }} )  {{ training_2.str_lost }}</td>
+          {% else %}
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          {% endif %}
+          {% set diff = compare.differences.get(aggregation) %}
+          {% if diff is not none %}
+          <td class="{{ diff.color_class }}">{{ diff.text_value }}</td>
+          {% else %}
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

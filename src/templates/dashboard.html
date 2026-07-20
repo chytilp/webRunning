@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<table border="1">
+    <thead>
+    <tr>
+    <th>Date</th>
+    {% for section in dashboard.sections %}
+        <th><a href="/section/{{ section }}?route={{ route_name }}">{{ "  " + section + "  " }}</a></th>
+    {% endfor %}
+    {% for aggregation in dashboard.aggregations %}
+        <th><a href="/aggregation/{{ aggregation }}?route={{ route_name }}">{{ "  " + aggregation + "  " }}</a></th>
+    {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for date in dashboard.dates %}
+        {% if date.gap_before %}
+           <tr>
+           {% for section in dashboard.sections %}
+               <td>&nbsp;&nbsp;&nbsp;</td>
+           {% endfor %}
+           {% for aggregation in dashboard.aggregations %}
+               <td>&nbsp;&nbsp;&nbsp;</td>
+           {% endfor %}
+           </tr>
+        {% endif %}
+        <tr>
+        <td><a href="/date/{{ date.value }}?route={{ route_name }}">{{ "  " + date.value + "  " }}</a></td>
+        {% for section in dashboard.sections %}
+           {% set cell = get_cell(dashboard, date.value, section) %}
+           {% if cell.is_empty %}
+           <td>&nbsp;&nbsp;&nbsp;</td>
+           {% else %}
+           <td class="{{ cell.get_grade_class }}">{{"  " + cell.time_converted + " (" + cell.str_order + ")  " }}</td>
+           {% endif %}
+        {% endfor %}
+        {% for aggregation in dashboard.aggregations %}
+           {% set cell = get_cell(dashboard, date.value, aggregation) %}
+           {% if cell.is_empty %}
+           <td>&nbsp;&nbsp;&nbsp;</td>
+           {% else %}
+           <td class="{{ cell.get_grade_class }}">{{"  " + cell.time_converted + " (" + cell.str_order + ")  " }}</td>
+           {% endif %}
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Dates:</h3>
+<br/>
+<table>
+<tbody>
+{% for item in trainings %}
+    {% if item.gap_before %}
+        <tr><td>&nbsp;&nbsp;&nbsp;</td></tr>
+    {% endif %}
+        <tr>
+    <td><a href="/date/{{ item.value }}?route={{ route_name }}">{{ item.value }}</a></td>
+        </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

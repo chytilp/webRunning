@@ -1,0 +1,44 @@
+.grade-1 {
+    background-color: lightgreen;
+    color: black;
+}
+.grade-2 {
+    background-color: orange;
+    color: black;
+}
+.grade-3 {
+    background-color: blue;
+    color: white;
+}
+.grade-4 {
+    background-color: magenta;
+    color: white;
+}
+.grade-5 {
+    background-color: red;
+    color: white;
+}
+div#menuRoutes, div#menu, div#header {
+    margin-bottom: 50px;
+}
+#menuRoutes span, #menu span {
+    margin-right: 30px;
+}
+table, table tr, table td, table th {
+    border: black solid 1px;
+}
+.text-right {
+    text-align: right;
+}
+.positive {
+    background-color: #aaff82;
+    text-align: right;
+}
+.negative {
+    background-color: #ff6b66;
+    text-align: right;
+}
+.neutral {
+    background-color: white;
+    text-align: right;
+}

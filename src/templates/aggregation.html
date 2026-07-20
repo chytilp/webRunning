@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Aggregation: {{ aggregation_name }}</h3>
+<br/>
+<table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Order</th>
+        <th>Lost</th>
+        <th>Grade</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in aggregation.output %}
+      <tr>
+          <td><a href="/date/{{ item[0] }}?route={{ route_name }}">{{ item[0] }}</a></td>
+          <td>{{ item[1].time_converted }}</td>
+          <td>{{ item[1].str_order }}</td>
+          <td>{{ item[1].str_lost }}</td>
+          <td class="{{ item[1].get_grade_class  }}">{{ item[1].grade }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+<br/>
+<h3>Grades</h3>
+<br/>
+<table>
+    <thead>
+      <tr>
+        <th>Grade</th>
+        <th>From</th>
+        <th>To</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for grade in [1,2,3,4,5] %}
+    <tr>
+        <td class="grade-{{ grade }}">{{ grade }}</td>
+        <td>{{ aggregation_grades[grade].start }}</td>
+        <td>{{ aggregation_grades[grade].end }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

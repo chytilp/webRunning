@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Training: {{ training.date }}</h3>
+<br/>
+<div>Note: {{ training.note }}</div>
+<h4>Sections</h4>
+<table>
+    <thead>
+      <tr>
+        <th>Section</th>
+        <th>Time</th>
+        <th>Order</th>
+        <th>Lost</th>
+        <th>Grade</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for section, item in training.sections.items() %}
+      <tr>
+          <td><a href="/section/{{ section }}?route={{ route_name }}">{{ section }}</a></td>
+          <td>{{ item.time_converted }}</td>
+          <td>{{ item.str_order }}</td>
+          <td>{{ item.str_lost }}</td>
+          <td class="{{ item.get_grade_class  }}">{{ item.grade }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+<br/>
+<h4>Aggregations</h4>
+<table>
+    <thead>
+      <tr>
+        <th>Aggregation</th>
+        <th>Time</th>
+        <th>Order</th>
+        <th>Lost</th>
+        <th>Grade</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for aggregation, item in training.aggregations.items() %}
+      <tr>
+          <td><a href="/aggregation/{{ aggregation }}?route={{ route_name }}">{{ aggregation }}</a></td>
+          <td>{{ item.time_converted }}</td>
+          <td>{{ item.str_order }}</td>
+          <td>{{ item.str_lost }}</td>
+          <td class="{{ item.get_grade_class  }}">{{ item.grade }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
