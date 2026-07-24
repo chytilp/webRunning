@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Dashboard form:</h3>
+<br/>
+<form action="/dashboard?route={{ route_name }}" method="post">
+<table>
+<thead>
+<tr>
+    <th>Sections</th>
+    <th>Aggregations</th>
+</tr>
+</thead>
+<tbody>
+{% for item in items %}
+    <tr>
+        {% if item["section"] == "" %}
+        <td>&nbsp;&nbsp;&nbsp;</td>
+        {% else %}
+        <td>
+            {% if item["section_selected"] %}
+            <input name="chks_{{ item["section"] }}" type="checkbox" value="{{ item["section"] }}" checked />
+            {% else %}
+            <input name="chks_{{ item["section"] }}" type="checkbox" value="{{ item["section"] }}" />
+            {% endif %}
+            <label for="chks_{{ item["section"] }}">{{ item["section"] }}</label>
+        </td>
+        {% endif %}
+
+        {% if item["aggregation"] == "" %}
+        <td>&nbsp;&nbsp;&nbsp;</td>
+        {% else %}
+        <td>
+            {% if item["aggregation_selected"] %}
+            <input name="chka_{{ item["aggregation"] }}" type="checkbox" value="{{ item["aggregation"] }}" checked />
+            {% else %}
+            <input name="chka_{{ item["aggregation"] }}" type="checkbox" value="{{ item["aggregation"] }}" />
+            {% endif %}
+            <label for="chka_{{ item["aggregation"] }}">{{ item["aggregation"] }}</label>
+        </td>
+        {% endif %}
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+<br/>
+<input type="submit" value="Send" />
+</form>
+{% endblock %}

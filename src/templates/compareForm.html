@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Compare form:</h3>
+<br/>
+<form action="/compare?route={{ route_name }}" method="post">
+<table>
+<thead>
+<tr>
+    {% for month in months %}
+    <th>{{ month }}</th>
+    {% endfor %}
+</tr>
+</thead>
+<tbody>
+{% for row in rows %}
+    <tr>
+   {% for month in months %}
+       {% set date = data[(month,row)] %}
+       {% if date == "" %}
+           <td>&nbsp;&nbsp;&nbsp;</td>
+       {% else %}
+       <td>
+         <input name="chk_{{ date }}" type="checkbox" value="{{ date }}" />
+         <label for="chk_{{ date }}">{{ date }}</label>
+       </td>
+       {% endif %}
+   {% endfor %}
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+<br/>
+<input type="submit" value="Send" />
+</form>
+{% endblock %}
