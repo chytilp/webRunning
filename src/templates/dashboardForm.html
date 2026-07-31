@@ -8,6 +8,7 @@
 <tr>
     <th>Sections</th>
     <th>Aggregations</th>
+    <th>Move aggregation</th>
 </tr>
 </thead>
 <tbody>
@@ -30,12 +31,23 @@
         <td>&nbsp;&nbsp;&nbsp;</td>
         {% else %}
         <td>
+            <span>
             {% if item["aggregation_selected"] %}
             <input name="chka_{{ item["aggregation"] }}" type="checkbox" value="{{ item["aggregation"] }}" checked />
             {% else %}
             <input name="chka_{{ item["aggregation"] }}" type="checkbox" value="{{ item["aggregation"] }}" />
             {% endif %}
             <label for="chka_{{ item["aggregation"] }}">{{ item["aggregation"] }}</label>
+            </span>
+        </td>
+        {% endif %}
+
+        {% if item["aggregation"] == "" %}
+        <td>&nbsp;&nbsp;&nbsp;</td>
+        {% else %}
+        <td style="text-align: center">
+        <input id="{{ item['button_name_dw'] }}" name="{{ item['button_name_dw'] }}" {{ item['button_dw_disabled'] }} type="button" value=" v " />&nbsp;&nbsp;&nbsp;
+        <input id="{{ item['button_name_up'] }}" name="{{ item['button_name_up'] }}" {{ item['button_up_disabled'] }} type="button" value=" ^ " />
         </td>
         {% endif %}
     </tr>
@@ -45,4 +57,45 @@
 <br/>
 <input type="submit" value="Send" />
 </form>
+<script lang="javascript">
+function moveSpan(element) {
+    let parts = element.attr("id").split("_");
+    let trObj = element.parent().parent();
+    let sourceTd = $(trObj).children("td")[1];
+    let spanObj = $(sourceTd).find("span");
+    console.log("source span:" + spanObj);
+    var destinationTr;
+    let direction = parts[parts.length - 1];
+    if (direction === "d") {
+        destinationTr = $(trObj).next();
+    }
+    if (direction === "u") {
+        destinationTr = $(trObj).prev();
+    }
+    let destTd = $(destinationTr).children("td")[1];
+    let originSpan = $(destinationTr).find("td span");
+    console.log("destination span:" + originSpan);
+    $(destTd).html(spanObj);
+    $(sourceTd).html(originSpan);
+}
+
+$(document).ready(function(){
+    {% for item in items %}
+        {% if item["aggregation"] != "" %}
+           {% if item["button_dw_disabled"] == "" %}
+             {% set dw_name = item["button_name_dw"] %}
+             $("input#{{ dw_name }}").click(function(){
+               moveSpan($(this));
+             });
+           {% endif %}
+           {% if item["button_up_disabled"] == "" %}
+             {% set up_name = item["button_name_up"] %}
+             $("input#{{ up_name }}").click(function(){
+               moveSpan($(this));
+             });
+           {% endif %}
+        {% endif %}
+    {% endfor %}
+});
+</script>
 {% endblock %}

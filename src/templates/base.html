@@ -4,6 +4,9 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}" />
     <title>Base page</title>
+    {% if jquery is defined %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    {% endif %}
 </head>
 <body>
     <div id="header">

@@ -1,3 +1,4 @@
 git+https://github.com/chytilp/libRunning@main
 fastapi[standard]
 python-multipart
+redis
