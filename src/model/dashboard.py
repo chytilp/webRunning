@@ -21,6 +21,7 @@ class Cell:
     grade: int = 0
     lost: int = 0
     time_convertible: bool = True
+    less_is_best: bool = True
 
     @property
     def get_grade_class(self) -> str:
@@ -47,7 +48,8 @@ class Cell:
             order=obj.order,
             grade=obj.grade,
             lost=obj.lost,
-            time_convertible=obj.time_convertible
+            time_convertible=obj.time_convertible,
+            less_is_best=obj.less_is_best,
         )
 
     @property

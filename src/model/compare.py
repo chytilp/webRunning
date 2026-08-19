@@ -7,15 +7,23 @@ from src.model.training import Training
 class ValueDifference:
     value: int
     text_value: str
+    less_is_best: bool = True
     color_class: str = ""
 
     def __post_init__(self) -> None:
-        if self.value < 0:
-            self.color_class = "positive"
-        elif self.value > 0:
-            self.color_class = "negative"
-        else:
+        if self.value == 0:
             self.color_class = "neutral"
+
+        if self.less_is_best:
+            if self.value < 0:
+                self.color_class = "positive"
+            elif self.value > 0:
+                self.color_class = "negative"
+        else:
+            if self.value < 0:
+                self.color_class = "negative"
+            elif self.value > 0:
+                self.color_class = "positive"
 
 
 @dataclass
@@ -64,7 +72,8 @@ class Difference:
             cell_2: Cell | None = self.training_2.aggregations.get(aggregation)
             if cell_1 and cell_2:
                 diff = cell_2.time - cell_1.time
-                self.differences[aggregation] = ValueDifference(value=diff, text_value=f"+{diff}" if diff > 0 else f"{diff}")
+                self.differences[aggregation] = ValueDifference(value=diff, text_value=f"+{diff}" if diff > 0 else f"{diff}",
+                                                                less_is_best=cell_1.less_is_best)
 
         training_1 = self.training_1.sections.copy()
         training_1.update(self.training_1.aggregations)
