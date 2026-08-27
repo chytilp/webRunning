@@ -15,7 +15,11 @@
     <tbody>
       {% for item in section.output %}
       <tr>
-          <td><a href="/date/{{ item[0] }}?route={{ route_name }}">{{ item[0] }}</a></td>
+          {% if mark == item[0] %}
+            <td class="mark-date"><a href="/date/{{ item[0] }}?route={{ route_name }}">{{ item[0] }}</a></td>
+          {% else %}
+            <td><a href="/date/{{ item[0] }}?route={{ route_name }}">{{ item[0] }}</a></td>
+          {% endif %}
           <td>{{ item[1].time_converted }}</td>
           <td>{{ item[1].str_order }}</td>
           <td>{{ item[1].str_lost }}</td>
