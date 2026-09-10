@@ -42,3 +42,6 @@ table, table tr, table td, table th {
     background-color: white;
     text-align: right;
 }
+.mark-date {
+    background-color: lightblue;
+}

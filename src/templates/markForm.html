@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Mark form:</h3>
+<br/>
+<form action="/mark?route={{ route_name }}" method="post">
+<label for="txtMark">Zadejte datum, které chcete označit</label><br/><br/>
+<input name="txtMark" type="text" value="{{ mark }}" />
+<br/><br/>
+<input name="btnSend" type="submit" value="Send" />
+</form>
+{% endblock %}

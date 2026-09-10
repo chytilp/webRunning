@@ -47,7 +47,7 @@ def create_objects_for_template(dates: list[str]) -> dict[str, Any]:
 
 
 @router.get("", response_class=HTMLResponse)
-def show_compare(request: Request, route: str) -> Any:
+def show_compare_form(request: Request, route: str) -> Any:
     routes: list[RouteModel] = get_routes()
     route_obj: RouteModel = RouteModel(name=route, description="")
     routes_list = [{"name": route.name, "description": route.description} for route in routes]
