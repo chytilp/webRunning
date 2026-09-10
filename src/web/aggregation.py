@@ -8,6 +8,7 @@ from libRunning import get_routes, get_aggregation, RouteModel, SectionsModel, g
 
 from src.model.section import SectionDates
 from src.model.grade import Grade
+from src.service.cache import AppCache
 
 router = APIRouter(prefix = "/aggregation")
 templates = Jinja2Templates(directory="src/templates")
@@ -22,10 +23,15 @@ def show_aggregation(request: Request, name: str, route: str) -> Any:
         aggregation_obj.add_date(date, values)
     aggregation_obj.prepare()
     grades: list[GradeModel] = get_aggregation_grades(route_obj, name)
+    # mark from cache
+    cache = AppCache(route=route)
+    mark: str = cache.get_mark() or ""
+
     return templates.TemplateResponse(
         request=request, name="aggregation.html", context={"aggregation_name": name, "route_name": route,
                                                            "routes": routes_list, "aggregation": aggregation_obj,
-                                                           "aggregation_grades": Grade.convert(grades)}
+                                                           "aggregation_grades": Grade.convert(grades),
+                                                           "mark": mark}
     )
 
 @router.get("", response_class=HTMLResponse)

@@ -9,6 +9,7 @@ class AppCache:
         self.keys: dict[str, str] = {
             "default_sections": f"{self.route}#default_sections",
             "default_aggregations": f"{self.route}#default_aggregations",
+            "mark": f"{self.route}#mark",
         }
 
     @staticmethod
@@ -41,3 +42,12 @@ class AppCache:
 
     def set_default_aggregations(self, aggregations: list[str]) -> None:
         self._set_object(self.keys["default_aggregations"], aggregations)
+
+    def get_mark(self) -> str | None:
+        result = self._get_object(self.keys["mark"])
+        if result is not None:
+            return cast(str, result)
+        return None
+
+    def set_mark(self, mark: str) -> None:
+        self._set_object(self.keys["mark"], mark)
