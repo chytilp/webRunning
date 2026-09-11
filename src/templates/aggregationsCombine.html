@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Aggregations: {{ ", ".join(aggregation_names) }}</h3>
+<br/>
+<table>
+    <thead>
+      <tr>
+          <th>Order</th>
+          <th>&nbsp;&nbsp;&nbsp;</th>
+          {% for agg_name in aggregation_names %}
+              <th colspan="3">{{ agg_name }}</th>
+          {% endfor %}
+      </tr>
+      <tr>
+          <th>&nbsp;</th>
+          <th>&nbsp;&nbsp;&nbsp;</th>
+          {% for agg_name in aggregation_names %}
+              <th>Date</th>
+              <th>Time</th>
+              <th>&nbsp;&nbsp;&nbsp;</th>
+          {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in range(max_items) %}
+          <tr>
+              <td>{{ row + 1 }}.</td>
+              <td></td>
+              {% for agg_name in aggregation_names %}
+                 {% set item = get_cell(aggregations, row, agg_name) %}
+                 {% if item is not none %}
+                    {% if mark == item[0] %}
+                        <td class="mark-date"><a href="/date/{{ item[0] }}?route={{ route_name }}">{{ item[0] }}</a></td>
+                    {% else %}
+                        <td><a href="/date/{{ item[0] }}?route={{ route_name }}">{{ item[0] }}</a></td>
+                    {% endif %}
+                    <td class="{{ item[1].get_grade_class  }}">{{ item[1].time_converted }}</td>
+                 {% else %}
+                     <td></td>
+                     <td></td>
+                 {% endif %}
+                 <td>&nbsp;</td>
+              {% endfor %}
+          </tr>
+      {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
