@@ -12,16 +12,21 @@ from src.service.cache import AppCache
 
 router = APIRouter(prefix = "/aggregation")
 templates = Jinja2Templates(directory="src/templates")
+
+def prepare_aggregation(name: str, route: RouteModel) -> SectionDates:
+    aggregation: SectionsModel = get_aggregation(route, name)
+    aggregation_obj: SectionDates = SectionDates()
+    for date, values in aggregation.date_sections.items():
+        aggregation_obj.add_date(date, values)
+    aggregation_obj.prepare()
+    return aggregation_obj
+
 @router.get("/{name}", response_class=HTMLResponse)
 def show_aggregation(request: Request, name: str, route: str) -> Any:
     route_obj = RouteModel(name=route, description="")
     routes = get_routes()
     routes_list = [{"name": route.name, "description": route.description} for route in routes]
-    aggregation: SectionsModel = get_aggregation(route_obj, name)
-    aggregation_obj: SectionDates = SectionDates()
-    for date, values in aggregation.date_sections.items():
-        aggregation_obj.add_date(date, values)
-    aggregation_obj.prepare()
+    aggregation_obj: SectionDates = prepare_aggregation(name, route_obj)
     grades: list[GradeModel] = get_aggregation_grades(route_obj, name)
     # mark from cache
     cache = AppCache(route=route)

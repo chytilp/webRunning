@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Aggregations combine form:</h3>
+<br/>
+<form action="/aggregationCombine?route={{ route_name }}" method="post">
+<label>Vyberte agregace pro hromadné zobrazení</label>
+<br/><br/>
+{% for aggregation in aggregations %}
+<div>
+    <input name="chk_{{ aggregation }}" type="checkbox" value="{{ aggregation }}" />
+    <label for="chk_{{ aggregation }}">{{ aggregation }}</label>
+</div>
+{% endfor %}
+<br/><br/>
+<input name="btnSend" type="submit" value="Send" />
+</form>
+{% endblock %}
